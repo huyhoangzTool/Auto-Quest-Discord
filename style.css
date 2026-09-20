@@ -1,0 +1,112 @@
+/* ============================================================
+   style.css - AutoQuest Discord - Huy Hoangz
+   ============================================================ */
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,sans-serif; }
+
+body {
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,0,150,0.08), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,100,0,0.08), transparent 40%),
+    radial-gradient(circle at 50% 50%, #1a1a1a, #000 80%);
+  color:#e0e0e0;
+  display:flex; flex-direction:column; align-items:center;
+  padding:30px 15px; overflow-x:hidden;
+}
+
+/* ---------- TIÊU ĐỀ ---------- */
+.title {
+  font-size:3.2rem; font-weight:900; letter-spacing:2px;
+  background:linear-gradient(90deg,#ff5fa2,#ffffff,#ff8ec7,#ffffff,#ff5fa2);
+  background-size:300% 100%;
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:gradientMove 4s linear infinite; text-align:center;
+}
+@keyframes gradientMove {
+  0% { background-position:0% 50%; }
+  100% { background-position:300% 50%; }
+}
+
+.subname {
+  font-family:'Courier New',monospace; font-weight:700;
+  letter-spacing:6px; font-size:0.95rem;
+  background:linear-gradient(90deg,#ff7b00,#ffb347,#ff7b00);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-top:6px; text-transform:uppercase;
+}
+
+/* ---------- PANEL ---------- */
+.panel {
+  width:100%; max-width:620px;
+  background:rgba(20,20,20,0.85);
+  border:1px solid rgba(255,95,162,0.35);
+  border-radius:14px; padding:22px 24px; margin-top:26px;
+  box-shadow:0 0 25px rgba(255,95,162,0.15);
+  backdrop-filter:blur(6px);
+}
+
+label { display:block; font-size:0.85rem; color:#ff8ec7; margin-bottom:8px; letter-spacing:1px; }
+
+input {
+  width:100%; padding:12px 14px; background:#0d0d0d; color:#fff;
+  border:1px solid #333; border-radius:8px; font-size:0.95rem;
+  outline:none; transition:0.2s;
+}
+input:focus { border-color:#ff5fa2; box-shadow:0 0 8px rgba(255,95,162,0.4); }
+
+button {
+  cursor:pointer; border:none; border-radius:8px;
+  padding:12px 20px; font-weight:700; letter-spacing:1px;
+  font-size:0.95rem; transition:0.2s;
+}
+.btn-login { width:100%; margin-top:14px; background:linear-gradient(90deg,#ff5fa2,#ff8ec7); color:#000; }
+.btn-login:hover { filter:brightness(1.15); }
+.btn-start { width:100%; margin-top:18px; background:linear-gradient(90deg,#ff7b00,#ffb347); color:#000; }
+.btn-start:hover { filter:brightness(1.15); }
+
+/* ---------- THỐNG KÊ ---------- */
+.stats { display:flex; gap:14px; margin-top:20px; }
+.stat-box {
+  flex:1; text-align:center; background:#0d0d0d;
+  border-radius:10px; padding:14px; border:1px solid #2a2a2a;
+}
+.stat-box .num { font-size:1.8rem; font-weight:900; }
+.stat-box .lbl { font-size:0.75rem; color:#999; margin-top:4px; letter-spacing:1px; }
+.done .num { color:#4caf50; }
+.pending .num { color:#ff9800; }
+
+/* ---------- QUEST LIST ---------- */
+.quest-list { margin-top:20px; max-height:260px; overflow-y:auto; }
+.quest-item {
+  display:flex; justify-content:space-between; align-items:center;
+  background:#111; border:1px solid #222; border-radius:8px;
+  padding:10px 14px; margin-bottom:8px; font-size:0.85rem;
+}
+.quest-item .name { color:#ddd; }
+.quest-item .status { font-size:0.75rem; padding:3px 8px; border-radius:5px; }
+.status.done { background:rgba(76,175,80,0.15); color:#4caf50; }
+.status.pending { background:rgba(255,152,0,0.15); color:#ff9800; }
+
+/* ---------- LOG ---------- */
+.log {
+  margin-top:16px; font-family:'Courier New',monospace;
+  font-size:0.78rem; color:#8ec7ff; background:#050505;
+  border:1px solid #1a1a1a; border-radius:8px;
+  padding:10px; height:150px; overflow-y:auto; white-space:pre-wrap;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  margin-top:40px; text-align:center; font-size:0.78rem;
+  color:#777; line-height:1.6; max-width:620px;
+}
+footer .copy { color:#ff8ec7; }
+footer .disclaimer { margin-top:6px; }
+footer .disclaimer em strong { color:#ff5fa2; }
+
+/* ---------- UTIL ---------- */
+.hidden { display:none; }
+.api-config { margin-top:12px; font-size:0.78rem; color:#888; }
+.api-config input { margin-top:6px; font-size:0.8rem; padding:8px 12px; }
