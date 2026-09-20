@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoQuest • Discord</title>
+  
+  <!-- Font chữ Google Fonts: Orbitron (Vuông vức sắc bén) & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #07070a;
+      --card-bg: rgba(18, 16, 26, 0.72);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --pink-glow: rgba(255, 0, 128, 0.35);
+      --orange-gradient: linear-gradient(135deg, #FF5500 0%, #FF9900 50%, #FFCC00 100%);
+      --green-accent: #00ffa3;
+      --yellow-accent: #ffb700;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Hiệu ứng Nền Đen Khói Tuyệt Đẹp (Dark Smoke Background) */
+    .smoke-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .smoke-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.25;
+      animation: floatSmoke 18s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: #ff007f;
+      top: -10%;
+      left: -10%;
+    }
+
+    .orb-2 {
+      width: 600px;
+      height: 600px;
+      background: #7928ca;
+      bottom: -15%;
+      right: -10%;
+      animation-delay: -5s;
+    }
+
+    .orb-3 {
+      width: 400px;
+      height: 400px;
+      background: #ff6a00;
+      top: 40%;
+      left: 30%;
+      opacity: 0.15;
+      animation-delay: -10s;
+    }
+
+    @keyframes floatSmoke {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(60px, 40px) scale(1.15); }
+      100% { transform: translate(-40px, 80px) scale(0.95); }
+    }
+
+    /* Layout chính */
+    .wrapper {
+      width: 100%;
+      max-width: 820px;
+      padding: 45px 20px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Tiêu đề Web chuyển động Hồng - Trắng */
+    .main-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #ffffff, #ff66b3, #ffffff, #ff007f, #ffffff);
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShine 5s linear infinite;
+      letter-spacing: 1px;
+      text-align: center;
+      filter: drop-shadow(0 0 15px rgba(255, 0, 127, 0.3));
+    }
+
+    @keyframes gradientShine {
+      0% { background-position: 0% center; }
+      100% { background-position: 300% center; }
+    }
+
+    /* Dòng chữ Huy Hoangz sắc bén Cam Gradient */
+    .sub-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      background: var(--orange-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 6px;
+      margin-bottom: 35px;
+      filter: drop-shadow(0 0 10px rgba(255, 102, 0, 0.4));
+    }
+
+    /* Khung Glassmorphism */
+    .glass-card {
+      width: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      margin-bottom: 25px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Form Đăng Nhập Token */
+    .form-header h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .form-header p {
+      font-size: 0.88rem;
+      color: #94a3b8;
+      margin-bottom: 22px;
+    }
+
+    .input-wrapper {
+      display: flex;
+      gap: 12px;
+      position: relative;
+    }
+
+    input[type="text"], input[type="password"] {
+      flex: 1;
+      background: rgba(10, 9, 15, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 16px 20px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      border-color: #ff007f;
+      box-shadow: 0 0 18px rgba(255, 0, 127, 0.3);
+    }
+
+    .btn-action {
+      background: linear-gradient(135deg, #ff007f 0%, #7928ca 100%);
+      color: #ffffff;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(255, 0, 127, 0.35);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(255, 0, 127, 0.55);
+    }
+
+    .btn-action:active {
+      transform: translateY(0);
+    }
+
+    .btn-action:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Thanh Thống Kê Nhiệm Vụ */
+    .stats-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 25px;
+    }
+
+    .stat-box {
+      background: rgba(10, 9, 15, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 3px;
+    }
+
+    .stat-box.completed::before { background: var(--green-accent); box-shadow: 0 0 10px var(--green-accent); }
+    .stat-box.pending::before { background: var(--yellow-accent); box-shadow: 0 0 10px var(--yellow-accent); }
+
+    .stat-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .stat-box.completed .stat-val { color: var(--green-accent); text-shadow: 0 0 12px rgba(0, 255, 163, 0.3); }
+    .stat-box.pending .stat-val { color: var(--yellow-accent); text-shadow: 0 0 12px rgba(255, 183, 0, 0.3); }
+
+    .stat-lbl {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+
+    /* Nhật Ký Tiến Trình */
+    .log-box {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #38bdf8;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 48px;
+    }
+
+    /* Danh Sách Nhiệm Vụ */
+    .quest-list-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .quest-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    /* Scrollbar Đẹp */
+    .quest-list::-webkit-scrollbar { width: 6px; }
+    .quest-list::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+    .quest-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 10px; }
+
+    .quest-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      transition: background 0.3s;
+    }
+
+    .quest-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .quest-details h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .quest-details p {
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff007f, #00ffa3);
+      width: 0%;
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
+    .badge-status {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .badge-done {
+      background: rgba(0, 255, 163, 0.12);
+      color: var(--green-accent);
+      border: 1px solid rgba(0, 255, 163, 0.3);
+    }
+
+    .badge-todo {
+      background: rgba(255, 183, 0, 0.12);
+      color: var(--yellow-accent);
+      border: 1px solid rgba(255, 183, 0, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      padding: 25px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(5, 5, 8, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .footer-copyright {
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      margin-bottom: 6px;
+    }
+
+    .footer-disclaimer {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: normal;
+      font-style: italic;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Background hiệu ứng Khói Bay -->
+  <div class="smoke-overlay">
+    <div class="smoke-orb orb-1"></div>
+    <div class="smoke-orb orb-2"></div>
+    <div class="smoke-orb orb-3"></div>
+  </div>
+
+  <div class="wrapper">
+    <!-- Tiêu đề Web -->
+    <h1 class="main-title">AutoQuest • Discord</h1>
+    <div class="sub-title">Huy Hoangz</div>
+
+    <!-- KHUNG 1: Nhập Token -->
+    <div id="loginCard" class="glass-card">
+      <div class="form-header">
+        <h3>Đăng Nhập Tài Khoản Discord</h3>
+        <p>Vui lòng nhập Mã Token tài khoản Discord để hệ thống tải danh sách nhiệm vụ hiện có.</p>
+      </div>
+      <div class="input-wrapper">
+        <input type="password" id="tokenInput" placeholder="Mã Token Discord (e.g. MTEyM...)" autocomplete="off">
+        <button class="btn-action" onclick="handleLogin()">
+          <span>Đăng Nhập</span>
+        </button>
+      </div>
+      <div id="loginAlert" style="color: #ff4d4d; font-size: 0.85rem; margin-top: 12px; display: none;"></div>
+    </div>
+
+    <!-- KHUNG 2: Dashboard Auto Quest (Hiển thị sau khi Đăng Nhập) -->
+    <div id="dashboardCard" class="glass-card hidden">
+      <!-- Thanh Thống Kê -->
+      <div class="stats-container">
+        <div class="stat-box completed">
+          <div class="stat-val" id="completedCount">0</div>
+          <div class="stat-lbl">Đã Hoàn Thành</div>
+        </div>
+        <div class="stat-box pending">
+          <div class="stat-val" id="pendingCount">0</div>
+          <div class="stat-lbl">Chưa Hoàn Thành</div>
+        </div>
+      </div>
+
+      <!-- Nút Bắt Đầu Auto Quest -->
+      <button id="startAutoBtn" class="btn-action" style="width: 100%; margin-bottom: 20px;" onclick="startAutoQuest()">
+        ⚡ Bắt Đầu Auto Quest
+      </button>
+
+      <!-- Nhật Ký Trạng Thái -->
+      <div id="logConsole" class="log-box">
+        <span>📌 Sẵn sàng thực hiện Auto Quest...</span>
+      </div>
+
+      <!-- Danh Sách Nhiệm Vụ Preview -->
+      <div class="quest-list-title">
+        <span>Nhiệm Vụ Khả Dụng Trong Hệ Thống</span>
+        <span id="totalQuestLbl" style="font-size: 0.82rem; color: #94a3b8;">0 Nhiệm vụ</span>
+      </div>
+
+      <div id="questContainer" class="quest-list">
+        <!-- render bằng Javascript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-copyright">&copy; Huy Hoangz - Hệ thống Auto Quest Discord.</div>
+    <div class="footer-disclaimer">Mọi thông tin, Token,… Đều không được lưu trữ, chúng tôi xin từ chối mọi trách nhiệm ngoài ý muốn.</div>
+  </footer>
+
+  <script>
+    // Dữ liệu mẫu Nhiệm vụ Discord Preview
+    let questData = [
+      { id: 'q1', name: 'Nhiệm vụ Genshin Impact v5.2', game: 'Genshin Impact', duration: '15 phút', progress: 0, target: 15, completed: false, enrolled: false },
+      { id: 'q2', name: 'Nhiệm vụ Honkai: Star Rail Quest', game: 'Honkai: Star Rail', duration: '15 phút', progress: 15, target: 15, completed: true, enrolled: true },
+      { id: 'q3', name: 'Fortnite Chapter 6 Stream Quest', game: 'Fortnite', duration: '15 phút', progress: 0, target: 15, completed: false, enrolled: false },
+      { id: 'q4', name: 'Valorant Episode 9 Quest', game: 'Valorant', duration: '15 phút', progress: 0, target: 15, completed: false, enrolled: false }
+    ];
+
+    let userToken = '';
+
+    // Xử lý Đăng Nhập Token
+    function handleLogin() {
+      const tokenVal = document.getElementById('tokenInput').value.trim();
+      const alertBox = document.getElementById('loginAlert');
+
+      if (!tokenVal) {
+        alertBox.innerText = '❌ Vui lòng nhập mã Token Discord!';
+        alertBox.style.display = 'block';
+        return;
+      }
+
+      alertBox.style.display = 'none';
+      userToken = tokenVal;
+
+      // Chuyển UI
+      document.getElementById('loginCard').classList.add('hidden');
+      document.getElementById('dashboardCard').classList.remove('hidden');
+
+      // Tải giao diện Nhiệm vụ
+      renderQuests();
+    }
+
+    // Hiển thị danh sách Nhiệm Vụ & Thống Kê
+    function renderQuests() {
+      const container = document.getElementById('questContainer');
+      container.innerHTML = '';
+
+      let completedNum = 0;
+      let pendingNum = 0;
+
+      questData.forEach((q, index) => {
+        if (q.completed) completedNum++;
+        else pendingNum++;
+
+        const percent = Math.min(100, Math.round((q.progress / q.target) * 100));
+
+        const item = document.createElement('div');
+        item.className = 'quest-card';
+        item.innerHTML = `
+          <div style="flex: 1;">
+            <div class="quest-details">
+              <h4>${q.name}</h4>
+              <p>Ứng dụng: <b>${q.game}</b> | Yêu cầu: ${q.duration}</p>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="bar-${q.id}" style="width: ${percent}%;"></div>
+            </div>
+          </div>
+          <span class="badge-status ${q.completed ? 'badge-done' : 'badge-todo'}" id="status-${q.id}">
+            ${q.completed ? '✓ Hoàn thành' : '• Chưa xong'}
+          </span>
+        `;
+        container.appendChild(item);
+      });
+
+      document.getElementById('completedCount').innerText = completedNum;
+      document.getElementById('pendingCount').innerText = pendingNum;
+      document.getElementById('totalQuestLbl').innerText = `${questData.length} Nhiệm vụ`;
+    }
+
+    // Tiến hành Auto Quest tự động
+    async function startAutoQuest() {
+      const btn = document.getElementById('startAutoBtn');
+      const logConsole = document.getElementById('logConsole');
+      
+      const uncompletedQuests = questData.filter(q => !q.completed);
+
+      if (uncompletedQuests.length === 0) {
+        logConsole.innerHTML = `<span>🎉 Tất cả nhiệm vụ đều đã được hoàn thành từ trước!</span>`;
+        return;
+      }
+
+      btn.disabled = true;
+
+      for (let i = 0; i < uncompletedQuests.length; i++) {
+        const q = uncompletedQuests[i];
+        
+        logConsole.innerHTML = `<span>⚙️ [${i+1}/${uncompletedQuests.length}] Đang tự động xử lý: <b>${q.name}</b>...</span>`;
+
+        // Giả lập từng bước gửi Heartbeat tăng tiến độ
+        for (let p = 1; p <= q.target; p += 3) {
+          q.progress = Math.min(q.target, p);
+          
+          // Cập nhật thanh tiến trình thanh thoát
+          const percent = Math.round((q.progress / q.target) * 100);
+          document.getElementById(`bar-${q.id}`).style.width = `${percent}%`;
+
+          logConsole.innerHTML = `<span>⏳ [${q.game}] Đang gửi Heartbeat giải lập tiến độ stream... (${q.progress}/${q.target} min - ${percent}%)</span>`;
+          
+          await new Promise(res => setTimeout(res, 800));
+        }
+
+        // Đánh dấu hoàn thành
+        q.completed = true;
+        q.progress = q.target;
+        
+        const statusBadge = document.getElementById(`status-${q.id}`);
+        statusBadge.className = 'badge-status badge-done';
+        statusBadge.innerText = '✓ Hoàn thành';
+
+        renderQuests();
+
+        logConsole.innerHTML = `<span>✅ Đã hoàn thành & nhận thưởng cho: <b>${q.name}</b>!</span>`;
+        await new Promise(res => setTimeout(res, 1000));
+      }
+
+      logConsole.innerHTML = `<span style="color: #00ffa3;">🎉 ĐÃ TỰ ĐỘNG HOÀN THÀNH TẤT CẢ NHIỆM VỤ DISCORD THÀNH CÔNG!</span>`;
+      btn.disabled = false;
+    }
+  </script>
+</body>
+</html>
